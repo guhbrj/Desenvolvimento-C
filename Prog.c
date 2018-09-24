@@ -2,5 +2,5 @@
 
 int main()
 {
-	printf("=-");
+	printf("Arquivo do git");
 }
