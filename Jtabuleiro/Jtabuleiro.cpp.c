@@ -20,15 +20,15 @@ void geraTab(int tabuleiro[]);
 int sort();
 int primJog(int dice, int num);
 int jogaDado(int dado);
-void checaTab(struct players jogadores[], int tabuleiro[], int vez)
+void check(struct players jogadores[], int tabuleiro[], int vez);
 
 #define TAM 70 //tamanho do tabuleiro
 
-typedef struct {
+struct players{
 	char nome[20];
 	char ini[4];//implementar uma interface grafica com tabuleiro e iniciais dos jogadores exp: jogador gustavo - gu1
 	int posicao, status, posFila;
-}players;
+};
 
 
 
@@ -47,7 +47,7 @@ int main()
 	scanf("%d", &num);
 	fflush(stdin);
 	
-players jogadores[num];
+struct players jogadores[num];
 nJogadores = num;
 //validar jogadores
 
@@ -73,7 +73,7 @@ for(i=0; i<num; i++)
 			}
 			
 			jogadores[vez].posicao+=jogaDado(dado);
-			checaTab(jogadores, tabuleiro, vez);
+			check(jogadores, tabuleiro, vez);
 			
 		}
 		else
@@ -182,9 +182,9 @@ int jogaDado(int dado)
 	return dado;
 }
 
-void checaTab(struct players jogadores[], int tabuleiro[], int vez)
+void check(struct players jogadores[], int tabuleiro[], int vez)
 {
-	
+	printf("a");
 }
 
 

@@ -20,15 +20,15 @@ void geraTab(int tabuleiro[]);
 int sort();
 int primJog(int dice, int num);
 int jogaDado(int dado);
-void checaTab(struct players jogadores[], int tabuleiro[], int vez)
+int checkTab(struct players jogadores[], int tabuleiro[], int vez);
 
 #define TAM 70 //tamanho do tabuleiro
 
-typedef struct {
+struct players{
 	char nome[20];
 	char ini[4];//implementar uma interface grafica com tabuleiro e iniciais dos jogadores exp: jogador gustavo - gu1
 	int posicao, status, posFila;
-}players;
+};
 
 
 
@@ -47,7 +47,7 @@ int main()
 	scanf("%d", &num);
 	fflush(stdin);
 	
-players jogadores[num];
+struct players jogadores[num];
 nJogadores = num;
 //validar jogadores
 
@@ -58,29 +58,70 @@ for(i=0; i<num; i++)
 	fflush(stdin);
 	jogadores[i].status=1;
 	jogadores[i].posFila=i+1;
+	printf("\nstatus jogador %d: %d", i+1, jogadores[i].status);
 }
 	vez = primJog(dado, num); // verificar caso de empate
 	// inicio do jogo
-	do
-	{
+
 		printf("jogador # %d inicia a jogada", vez);
-		
-		if(jogadores[vez].status!=0)
-		{
-			if(vez>num)
+		do
+	{	
+		if(vez>num)
 			{
 				vez = 1;
 			}
 			
-			jogadores[vez].posicao+=jogaDado(dado);
-			checaTab(jogadores, tabuleiro, vez);
+		if(jogadores[vez].status!=0)
+		{
 			
+			
+			jogadores[vez].posicao+=(jogaDado(dado));
+			
+			switch(checkTab(jogadores, tabuleiro, vez))
+			{
+				
+				case 0:
+				printf("\njogador %d está na casa %d ...",vez, jogadores[vez].posicao );	
+				break;
+				
+				case 1:
+				
+				jogadores[vez].status=0;
+				printf("\nQue pena jogador %d ! Você foi eliminado ...",vez );
+				
+				break;
+				
+				case 2:
+				
+				printf("\nVolte para o inicio, jogador %d !",vez );
+				jogadores[vez].posicao = 0;
+				break;
+				
+				case 3:
+					
+				printf("\njogador %d ficará parado na próxima rodada!",vez );
+				//implementar
+					
+				break;
+				
+				case 4:
+				printf("\nQue azar jogador %d ! Jogue o dado para voltar n casas",vez );
+				//implementar
+					
+				break;
+			}
+			vez++;
 		}
 		else
 		{
 			vez++;
+			if(vez>num)
+			{
+				vez=1;
+			}
 		}
-		
+		printf("\n vez na fila: %d\n", vez);
+		system("PAUSE");
 	}while(nJogadores>1);
 }
 
@@ -170,7 +211,7 @@ int primJog(int dice, int num)
 			maior[1]= i;
 		}
 	}
-	
+	printf("\n retorno da funcao primeira jodaga: %d\n\n", maior[1]);
 	system("PAUSE");
 
 	return maior[1];	
@@ -182,9 +223,9 @@ int jogaDado(int dado)
 	return dado;
 }
 
-void checaTab(struct players jogadores[], int tabuleiro[], int vez)
+int checkTab(struct players jogadores[], int tabuleiro[], int vez)
 {
-	
+	return tabuleiro[jogadores[vez].posicao];
 }
 
 
